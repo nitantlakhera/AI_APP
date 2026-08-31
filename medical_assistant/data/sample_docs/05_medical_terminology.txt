@@ -1,0 +1,40 @@
+Medical Terminology — Student Reference
+=======================================
+
+DISCLAIMER: Educational glossary for learning. Not for clinical use without proper training.
+
+Common Prefixes
+---------------
+- Hyper- : excessive, above normal (hypertension = high blood pressure)
+- Hypo- : deficient, below normal (hypoglycemia = low blood sugar)
+- Brady- : slow (bradycardia = slow heart rate)
+- Tachy- : fast (tachycardia = fast heart rate)
+- Anti- : against (antibiotic = against bacteria)
+
+Common Suffixes
+---------------
+- -itis : inflammation (arthritis = joint inflammation)
+- -ectomy : surgical removal (appendectomy)
+- -ology : study of (cardiology = study of the heart)
+- -pathy : disease (neuropathy = nerve disease)
+
+Common Abbreviations (Educational)
+----------------------------------
+- BP: blood pressure
+- HR: heart rate
+- RR: respiratory rate
+- BMI: body mass index
+- CPR: cardiopulmonary resuscitation
+- AED: automated external defibrillator
+- GP: general practitioner
+- OTC: over-the-counter (medication)
+
+How AI Uses Medical Knowledge
+-----------------------------
+In healthcare AI applications:
+- RAG retrieves from approved medical documents (like this knowledge base)
+- Agents can call tools: symptom checkers, drug databases, appointment systems
+- MCP connects AI assistants to hospital systems securely
+- All production medical AI requires regulatory approval and clinical validation
+
+This learning project demonstrates the architecture — not clinical-grade AI.

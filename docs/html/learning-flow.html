@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Learning Flow — AI Learning Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>📚 Complete Learning Flow</h1>
+    <p>Step-by-step journey from beginner to confident AI developer</p>
+  </div>
+</header>
+
+<nav class="top-nav">
+  <a href="index.html">Home</a>
+  <a href="learning-flow.html" class="active">Learning Flow</a>
+  <a href="main-app-flow.html">Main App</a>
+  <a href="fine-tuning-flow.html">Fine-Tuning</a>
+  <a href="medical-assistant-flow.html">Medical Assistant</a>
+</nav>
+
+<div class="container">
+
+  <div class="alert alert-success">
+    <strong>Goal:</strong> By the end of this flow you will understand Chat, RAG, Agents, MCP, Fine-Tuning,
+    and how to apply them to a real domain (healthcare).
+  </div>
+
+  <h2>Big Picture — Read This First</h2>
+  <p style="color: var(--muted); margin-bottom: 1rem;">
+    These PNG diagrams show how everything connects. Refer back to them as you learn each phase.
+  </p>
+  <div class="diagram-gallery">
+    <div class="diagram-card">
+      <h3>System Integration</h3>
+      <img src="../images/integration-overview.png" alt="System integration overview" class="diagram-img">
+    </div>
+    <div class="diagram-card">
+      <h3>LLM Architecture</h3>
+      <img src="../images/llm-architecture.png" alt="LLM architecture" class="diagram-img">
+    </div>
+    <div class="diagram-card">
+      <h3>Pipeline Structure</h3>
+      <img src="../images/pipeline-structure.png" alt="Pipeline structure" class="diagram-img">
+    </div>
+  </div>
+
+  <!-- PHASE 0 -->
+  <div class="flow-section">
+    <h2>Phase 0 — Setup (Day 1, ~30 minutes)</h2>
+
+    <div class="phase setup">
+      <div class="phase-header">
+        <span class="phase-num">0</span>
+        <h3>Install &amp; Run</h3>
+      </div>
+      <ol>
+        <li>Install Python 3.10+</li>
+        <li>Open terminal in <code>AI_APP</code> folder</li>
+        <li>Create virtual environment: <code>python -m venv .venv</code></li>
+        <li>Activate: <code>.venv\Scripts\Activate.ps1</code></li>
+        <li>Install: <code>pip install -r requirements.txt</code></li>
+        <li>Copy config: <code>copy .env.example .env</code></li>
+        <li>Set <code>LLM_PROVIDER=demo</code> in <code>.env</code> (works without API key)</li>
+        <li>Run: <code>python -m streamlit run app.py</code></li>
+        <li>Open <strong>http://localhost:8501</strong></li>
+      </ol>
+      <p style="margin-top:0.75rem;color:var(--accent2);">✅ Checkpoint: App loads with 6 tabs visible</p>
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="flow-section">
+    <h2>Phase 1 — Generative AI &amp; Chat (Day 1–2)</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <span class="time">Step 1 · 10 min</span>
+        <h4>💬 Chat Tab — Talk to the LLM</h4>
+        <p>Type "Hello, my name is Alex" then "What is my name?" — observe conversation memory.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Step 2 · 15 min</span>
+        <h4>Read the code</h4>
+        <p>Open <code>src/chat/service.py</code> — see system prompt and message history.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Step 3 · 10 min</span>
+        <h4>Concepts Tab</h4>
+        <p>Read "Generative AI" and "Prompt Engineering" sections.</p>
+      </div>
+    </div>
+    <p><strong>Learn:</strong> LLMs generate text token by token. System prompts shape behavior. Chat = multi-turn context.</p>
+    <a href="main-app-flow.html#chat">→ Detailed Chat flow</a>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="flow-section">
+    <h2>Phase 2 — RAG (Day 2–3)</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <span class="time">Step 1 · 5 min</span>
+        <h4>📚 RAG Tab — Ingest documents</h4>
+        <p>Click "Ingest Sample Docs". Wait for indexing (~1 min first time).</p>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Step 2 · 10 min</span>
+        <h4>Ask questions</h4>
+        <p>"What is RAG?" → "How do embeddings work?" → Expand retrieved chunks.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Step 3 · 20 min</span>
+        <h4>Read the code</h4>
+        <p><code>src/rag/pipeline.py</code> → <code>embeddings.py</code> → <code>vectorstore.py</code></p>
+      </div>
+    </div>
+    <p><strong>Learn:</strong> Retrieve → Augment → Generate. Embeddings enable semantic search.</p>
+    <a href="main-app-flow.html#rag">→ Detailed RAG flow</a>
+  </div>
+
+  <!-- PHASE 2b -->
+  <div class="flow-section">
+    <h2>Phase 2b — Open Wiki (Day 3)</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <span class="time">Step 1 · 5 min</span>
+        <h4>📖 Open Wiki Tab — Browse compiled pages</h4>
+        <p>Pre-built wiki pages are ready in <code>data/wiki/pages/</code>. No ingest needed.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Step 2 · 10 min</span>
+        <h4>Compare with RAG</h4>
+        <p>Ask the same question in RAG and Open Wiki tabs. Notice: chunks vs synthesized pages.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Step 3 · 15 min</span>
+        <h4>Read the code</h4>
+        <p><code>src/wiki/pipeline.py</code> → <code>store.py</code> — compile + query without vectors.</p>
+      </div>
+    </div>
+    <p><strong>Learn:</strong> This simplified Open Wiki converts each source into a persistent markdown page and retrieves pages by keywords. Full cross-source synthesis is not implemented.</p>
+    <a href="main-app-flow.html#open-wiki">→ Detailed Open Wiki flow</a>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="flow-section">
+    <h2>Phase 3 — Agentic AI (Day 3–4)</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <span class="time">Step 1 · 10 min</span>
+        <h4>🤖 Agent Tab — Simple tool</h4>
+        <p>Ask: "What is 25 * 17?" — watch calculator tool in reasoning steps.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Step 2 · 10 min</span>
+        <h4>Multi-tool task</h4>
+        <p>"What's the weather in Tokyo and what time is it?" — multiple tools.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Step 3 · 10 min</span>
+        <h4>Agent + RAG integration</h4>
+        <p>"Search the docs: what is an AI agent?" — agent calls RAG pipeline!</p>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Step 4 · 20 min</span>
+        <h4>Read the code</h4>
+        <p><code>src/agents/agent.py</code> → <code>tools.py</code> — ReAct loop.</p>
+      </div>
+    </div>
+    <p><strong>Learn:</strong> Agents reason → act → observe → loop. Tool calling = structured function requests.</p>
+    <a href="main-app-flow.html#agent">→ Detailed Agent flow</a>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="flow-section">
+    <h2>Phase 4 — MCP (Day 4)</h2>
+
+    <div class="phase">
+      <div class="phase-header">
+        <span class="phase-num">4</span>
+        <h3>Model Context Protocol</h3>
+      </div>
+      <ol>
+        <li>Run: <code>python -m src.mcp.server</code></li>
+        <li>Understand: MCP = USB for AI — standard tool protocol</li>
+        <li>Same tools as Agent tab, exposed to Cursor/Claude Desktop</li>
+        <li>Read <code>src/mcp/server.py</code></li>
+      </ol>
+    </div>
+    <a href="main-app-flow.html#mcp">→ Detailed MCP flow</a>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="flow-section">
+    <h2>Phase 5 — Fine-Tuning (Day 5–6)</h2>
+
+    <div class="phase finetune">
+      <div class="phase-header">
+        <span class="phase-num">5</span>
+        <h3>LoRA Fine-Tuning</h3>
+      </div>
+      <ol>
+        <li>Install: <code>pip install -r fine_tuning/requirements.txt</code></li>
+        <li>Open <strong>Fine-Tune</strong> tab in main app (or run <code>fine_tuning/app.py</code>)</li>
+        <li>Preview dataset → Train (3 epochs, ~5–15 min) → Infer → Evaluate</li>
+        <li>Compare base vs fine-tuned model</li>
+        <li>Export: <code>python fine_tuning/scripts/export.py</code></li>
+      </ol>
+    </div>
+    <a href="fine-tuning-flow.html">→ Detailed Fine-Tuning flow</a>
+  </div>
+
+  <!-- PHASE 6 -->
+  <div class="flow-section">
+    <h2>Phase 6 — Domain Application (Day 7)</h2>
+
+    <div class="phase medical">
+      <div class="phase-header">
+        <span class="phase-num">6</span>
+        <h3>Medical Assistant</h3>
+      </div>
+      <ol>
+        <li>Run: <code>python -m streamlit run medical_assistant/app.py</code></li>
+        <li>Try Medical Chat, RAG, Agent (BMI, symptoms, medications)</li>
+        <li>Compare with main app — same patterns, different domain</li>
+        <li>Notice safety disclaimers throughout</li>
+      </ol>
+    </div>
+    <a href="medical-assistant-flow.html">→ Detailed Medical Assistant flow</a>
+  </div>
+
+  <!-- PHASE 7 -->
+  <div class="flow-section">
+    <h2>Phase 7 — Mastery (Week 2+)</h2>
+
+    <ul class="checklist">
+      <li>Read INTEGRATION_DIAGRAM — understand how everything connects</li>
+      <li>Read ADVANCED_CONCEPTS — plan what to learn next</li>
+      <li>Modify a system prompt and see behavior change</li>
+      <li>Add a new tool to the agent</li>
+      <li>Add your own document to RAG and re-ingest</li>
+      <li>Add rows to fine-tuning dataset and retrain</li>
+      <li>Build your own domain app (e.g., legal, finance, education)</li>
+    </ul>
+  </div>
+
+  <h2>Architecture Overview</h2>
+  <div class="diagram">┌─────────────────────────────────────────────────────────────┐
+│                    MAIN APP (app.py)                         │
+│   Chat ──► LLM    RAG ──► ChromaDB + LLM                   │
+│   Agent ──► Tools + RAG    Fine-Tune ──► LoRA              │
+│   MCP ──► same tools externally                              │
+└─────────────────────────────────────────────────────────────┘
+         │                              │
+         ▼                              ▼
+  medical_assistant/              fine_tuning/
+  (healthcare domain)             (LoRA training)</div>
+
+  <h2>Skill Checklist</h2>
+  <table>
+    <tr><th>Skill</th><th>Phase</th><th>Done?</th></tr>
+    <tr><td>Run the app</td><td>0</td><td>☐</td></tr>
+    <tr><td>Use Chat with memory</td><td>1</td><td>☐</td></tr>
+    <tr><td>Ingest docs &amp; RAG query</td><td>2</td><td>☐</td></tr>
+    <tr><td>Run agent with tools</td><td>3</td><td>☐</td></tr>
+    <tr><td>Understand MCP</td><td>4</td><td>☐</td></tr>
+    <tr><td>Train LoRA adapter</td><td>5</td><td>☐</td></tr>
+    <tr><td>Use Medical Assistant</td><td>6</td><td>☐</td></tr>
+    <tr><td>Read all source code</td><td>7</td><td>☐</td></tr>
+  </table>
+
+</div>
+
+<footer>
+  <a href="index.html">← Back to Documentation Hub</a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Assistant Learning Flow — AI Learning Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>🏥 Medical Assistant Learning Flow</h1>
+    <p>Healthcare domain — same AI architecture, different application</p>
+  </div>
+</header>
+
+<nav class="top-nav">
+  <a href="index.html">Home</a>
+  <a href="learning-flow.html">Learning Flow</a>
+  <a href="main-app-flow.html">Main App</a>
+  <a href="fine-tuning-flow.html">Fine-Tuning</a>
+  <a href="medical-assistant-flow.html" class="active">Medical Assistant</a>
+</nav>
+
+<div class="container">
+
+  <div class="alert alert-warning">
+    <strong>⚠️ Educational only.</strong> This is NOT a real medical device. Never use for actual
+    medical decisions. Always consult a qualified healthcare professional.
+  </div>
+
+  <h2>Setup &amp; Run</h2>
+  <pre>pip install -r requirements.txt
+python -m streamlit run medical_assistant/app.py
+→ http://localhost:8501
+
+python medical_assistant/scripts/ingest.py</pre>
+
+  <h2>Why a Medical App?</h2>
+  <p style="color:var(--muted);margin:1rem 0;">
+    Students learn that <strong>the same AI patterns</strong> (Chat, RAG, Agent, MCP) apply to every industry.
+    Healthcare adds: safety disclaimers, domain-specific tools, and regulatory awareness.
+  </p>
+
+  <div class="flow-section">
+    <h2>Step-by-Step Learning Flow</h2>
+
+    <div class="phase medical">
+      <div class="phase-header"><span class="phase-num">1</span><h3>Medical Chat</h3></div>
+      <ol>
+        <li>Open <strong>Medical Chat</strong> tab</li>
+        <li>Ask: <code>What are the main body systems?</code></li>
+        <li>Ask: <code>Diagnose my headache</code> — observe safety refusal</li>
+        <li>Read <code>medical_assistant/src/chat/service.py</code> — medical system prompt</li>
+      </ol>
+    </div>
+
+    <div class="phase medical">
+      <div class="phase-header"><span class="phase-num">2</span><h3>Medical RAG</h3></div>
+      <ol>
+        <li>Click <strong>Ingest Medical Docs</strong></li>
+        <li>Ask: <code>What is hypertension?</code></li>
+        <li>Ask: <code>What is the CPR ratio?</code></li>
+        <li>Expand chunks — source from health education files</li>
+      </ol>
+      <table>
+        <tr><th>Question</th><th>Source</th></tr>
+        <tr><td>Body systems?</td><td>01_human_body_basics.txt</td></tr>
+        <tr><td>Common cold?</td><td>02_common_conditions.txt</td></tr>
+        <tr><td>First aid CPR?</td><td>03_first_aid_basics.txt</td></tr>
+        <tr><td>BMI categories?</td><td>04_nutrition_health.txt</td></tr>
+        <tr><td>Medical terminology?</td><td>05_medical_terminology.txt</td></tr>
+      </table>
+    </div>
+
+    <div class="phase medical">
+      <div class="phase-header"><span class="phase-num">3</span><h3>Medical Agent</h3></div>
+      <ol>
+        <li>Ingest docs first</li>
+        <li><code>Calculate BMI for 70kg and 1.75m</code> → bmi_calculator</li>
+        <li><code>Look up fever symptoms</code> → symptom_lookup</li>
+        <li><code>What is paracetamol?</code> → medication_info</li>
+        <li><code>Find cardiologist in London</code> → find_specialist</li>
+        <li><code>Search KB: what is diabetes?</code> → search_medical_kb → RAG</li>
+      </ol>
+    </div>
+
+    <div class="phase medical">
+      <div class="phase-header"><span class="phase-num">4</span><h3>Compare with Main App</h3></div>
+      <table>
+        <tr><th>Aspect</th><th>Main Lab</th><th>Medical Assistant</th></tr>
+        <tr><td>Chat persona</td><td>AI tutor</td><td>Medical education tutor</td></tr>
+        <tr><td>RAG docs</td><td>AI concepts</td><td>Health education</td></tr>
+        <tr><td>Agent tools</td><td>calculator, weather</td><td>BMI, symptoms, drugs</td></tr>
+        <tr><td>Vector DB</td><td>data/chroma_db/</td><td>medical_assistant/data/chroma_db/</td></tr>
+        <tr><td>Safety</td><td>Basic</td><td>Disclaimers everywhere</td></tr>
+      </table>
+    </div>
+
+    <div class="phase medical">
+      <div class="phase-header"><span class="phase-num">5</span><h3>Medical MCP</h3></div>
+      <pre>python -m medical_assistant.src.mcp.server</pre>
+      <p>Tools: calc_bmi, symptoms, medication, specialist, medical_search</p>
+    </div>
+  </div>
+
+  <h2>Architecture</h2>
+  <div class="diagram">medical_assistant/app.py
+ ├── Medical Chat ──► chat/service ──► llm (shared)
+ ├── Medical RAG  ──► rag/pipeline ──► Medical ChromaDB
+ ├── Med Agent    ──► agents/agent ──► medical tools
+ │                        │
+ │              search_medical_kb ──► RAG (integrated!)
+ └── MCP Server ──► same tools externally
+
+Separate from main app:
+ • Own vector DB (medical docs)
+ • Own tools (BMI, symptoms, etc.)
+ • Shares LLM provider via llm_bridge.py</div>
+
+  <h2>Exercises</h2>
+  <ul class="checklist">
+    <li>Complete full flow: ingest → chat → RAG → agent</li>
+    <li>Find where disclaimers are added in code</li>
+    <li>Add a new symptom to SYMPTOM_DB in tools.py</li>
+    <li>Add a health document and re-ingest</li>
+    <li>Design your own domain app (legal, finance, etc.)</li>
+  </ul>
+
+  <h2>Production vs Learning</h2>
+  <table>
+    <tr><th>Requirement</th><th>This Project</th><th>Real Healthcare AI</th></tr>
+    <tr><td>Data</td><td>Mock / educational</td><td>Clinically validated</td></tr>
+    <tr><td>Safety</td><td>Text disclaimers</td><td>FDA/CE approval, HITL</td></tr>
+    <tr><td>Privacy</td><td>Local only</td><td>HIPAA, GDPR</td></tr>
+    <tr><td>Diagnosis</td><td>Refused by design</td><td>Regulated workflows</td></tr>
+  </table>
+
+</div>
+
+<footer>
+  <a href="learning-flow.html">← Complete Learning Flow</a> · <a href="index.html">Home</a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Main App Learning Flow — AI Learning Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>🧠 Main App Learning Flow</h1>
+    <p>Chat → RAG → Open Wiki → Agent → Fine-Tune → MCP</p>
+  </div>
+</header>
+
+<nav class="top-nav">
+  <a href="index.html">Home</a>
+  <a href="learning-flow.html">Learning Flow</a>
+  <a href="main-app-flow.html" class="active">Main App</a>
+  <a href="fine-tuning-flow.html">Fine-Tuning</a>
+  <a href="medical-assistant-flow.html">Medical Assistant</a>
+</nav>
+
+<div class="container">
+
+  <pre>python -m streamlit run app.py
+→ http://localhost:8501</pre>
+
+  <h2>Architecture at a Glance</h2>
+  <div class="diagram-gallery">
+    <div class="diagram-card">
+      <h3>LLM Architecture</h3>
+      <p>All tabs share one LLM provider. RAG uses ChromaDB; Agent uses tools + RAG search.</p>
+      <img src="../images/llm-architecture.png" alt="LLM architecture" class="diagram-img">
+    </div>
+    <div class="diagram-card">
+      <h3>Pipeline Structure</h3>
+      <p>See how each feature processes input from user message to final answer.</p>
+      <img src="../images/pipeline-structure.png" alt="Pipeline structure" class="diagram-img">
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="flow-section" id="chat">
+    <h2>💬 Chat Tab — Generative AI</h2>
+    <div class="phase">
+      <div class="phase-header"><span class="phase-num">1</span><h3>Learning Flow</h3></div>
+      <ol>
+        <li>Open <strong>Chat</strong> tab</li>
+        <li>Say: <code>Hello, my name is [your name]</code></li>
+        <li>Ask: <code>What is my name?</code> — tests memory</li>
+        <li>Ask: <code>Explain generative AI simply</code></li>
+        <li>Click <strong>Clear Chat</strong> — resets history</li>
+      </ol>
+    </div>
+    <h3>Code to read</h3>
+    <table>
+      <tr><th>File</th><th>What it does</th></tr>
+      <tr><td><code>src/chat/service.py</code></td><td>ChatSession, message history, system prompt</td></tr>
+      <tr><td><code>src/llm/provider.py</code></td><td>LLM abstraction (Ollama/OpenAI/Demo)</td></tr>
+      <tr><td><code>app.py</code></td><td>Streamlit UI</td></tr>
+    </table>
+    <div class="diagram">User message → ChatSession.send()
+  → append to messages[]
+  → llm.chat(messages)
+  → append assistant reply
+  → display in UI</div>
+  </div>
+
+  <!-- RAG -->
+  <div class="flow-section" id="rag">
+    <h2>📚 RAG Tab — Retrieval Augmented Generation</h2>
+    <div class="phase">
+      <div class="phase-header"><span class="phase-num">2</span><h3>Learning Flow</h3></div>
+      <ol>
+        <li>Click <strong>Ingest Sample Docs</strong></li>
+        <li>Wait for indexing (sidebar shows chunk count)</li>
+        <li>Ask: <code>What is generative AI?</code></li>
+        <li>Ask: <code>What is the ReAct pattern?</code></li>
+        <li>Expand <strong>Retrieved Chunks</strong> — see source documents</li>
+      </ol>
+    </div>
+    <h3>Sample questions</h3>
+    <table>
+      <tr><th>Question</th><th>Source file</th></tr>
+      <tr><td>What is generative AI?</td><td>01_generative_ai.txt</td></tr>
+      <tr><td>What is RAG?</td><td>02_rag.txt</td></tr>
+      <tr><td>How do AI agents work?</td><td>03_agents.txt</td></tr>
+      <tr><td>What are embeddings?</td><td>04_embeddings.txt</td></tr>
+    </table>
+    <div class="diagram">Question → embed_query() → ChromaDB search
+  → top-K chunks → build prompt with context
+  → llm.chat() → grounded answer + sources</div>
+    <p>CLI ingest: <code>python scripts/ingest.py</code></p>
+  </div>
+
+  <!-- OPEN WIKI -->
+  <div class="flow-section" id="open-wiki">
+    <h2>📖 Open Wiki Tab — Persistent Knowledge Base</h2>
+    <div class="phase">
+      <div class="phase-header"><span class="phase-num">3</span><h3>Learning Flow</h3></div>
+      <ol>
+        <li>Open <strong>Open Wiki</strong> tab — pre-built pages are ready</li>
+        <li>Browse pages in the expander</li>
+        <li>Ask: <code>What is the difference between RAG and Open Wiki?</code></li>
+        <li>Ask the <strong>same question</strong> in the RAG tab — compare answers</li>
+        <li>Optional: click <strong>Compile Sample Docs</strong> to rebuild wiki from raw files</li>
+      </ol>
+    </div>
+    <h3>RAG vs Open Wiki</h3>
+    <table>
+      <tr><th></th><th>RAG</th><th>Open Wiki</th></tr>
+      <tr><td>Storage</td><td>Vector chunks</td><td>Markdown pages</td></tr>
+      <tr><td>Retrieval</td><td>Embedding search</td><td>Page search</td></tr>
+      <tr><td>Knowledge</td><td>Raw chunks selected each query</td><td>Persistent page per source</td></tr>
+    </table>
+    <div class="diagram">Question → search wiki pages → read compiled markdown
+  → build prompt with wiki content
+  → llm.chat() → synthesized answer + page sources</div>
+    <p>CLI compile: <code>python scripts/compile_wiki.py</code></p>
+    <p>Wiki files: <code>data/wiki/pages/</code></p>
+    <p><strong>Demo scope:</strong> keyword page retrieval is implemented; autonomous
+      cross-page synthesis and contradiction detection are not.</p>
+  </div>
+
+  <!-- AGENT -->
+  <div class="flow-section" id="agent">
+    <h2>🤖 Agent Tab — Agentic AI</h2>
+    <div class="phase">
+      <div class="phase-header"><span class="phase-num">4</span><h3>Learning Flow</h3></div>
+      <ol>
+        <li>Ingest docs first (for search_knowledge tool)</li>
+        <li>Try: <code>What is 15 * 23?</code> → calculator</li>
+        <li>Try: <code>Weather in London?</code> → get_weather</li>
+        <li>Try: <code>What time is it?</code> → get_current_time</li>
+        <li>Try: <code>Search docs: what is MCP?</code> → search_knowledge → RAG!</li>
+        <li>Try: <code>Search wiki: what is Open Wiki?</code> → search_wiki → Open Wiki!</li>
+        <li>Expand <strong>Reasoning Steps</strong> for each example</li>
+      </ol>
+    </div>
+    <h3>Agent tools</h3>
+    <table>
+      <tr><th>Tool</th><th>Example input</th></tr>
+      <tr><td>calculator</td><td>25 * 17 + sqrt(144)</td></tr>
+      <tr><td>get_weather</td><td>Tokyo</td></tr>
+      <tr><td>get_current_time</td><td>(none)</td></tr>
+      <tr><td>search_knowledge</td><td>what is RAG?</td></tr>
+      <tr><td>search_wiki</td><td>what is Open Wiki?</td></tr>
+    </table>
+    <div class="diagram">User task → Agent loop (max 5 steps):
+  LLM thinks → tool_call? → execute_tool() → observe → repeat
+  → final answer + reasoning steps</div>
+  </div>
+
+  <!-- FINE-TUNE -->
+  <div class="flow-section" id="finetune">
+    <h2>🎯 Fine-Tune Tab — LoRA Training</h2>
+    <div class="phase finetune">
+      <div class="phase-header"><span class="phase-num">5</span><h3>Learning Flow</h3></div>
+      <ol>
+        <li>Install: <code>pip install -r fine_tuning/requirements.txt</code></li>
+        <li><strong>Dataset</strong> — preview 15 instruction examples</li>
+        <li><strong>Train</strong> — 3 epochs, wait ~5–15 min</li>
+        <li><strong>Infer</strong> — "What is LoRA?" (adapter used?)</li>
+        <li><strong>Evaluate</strong> — compare base vs fine-tuned</li>
+      </ol>
+    </div>
+    <a href="fine-tuning-flow.html">→ Full Fine-Tuning flow page</a>
+  </div>
+
+  <!-- MCP -->
+  <div class="flow-section" id="mcp">
+    <h2>🔌 MCP Server</h2>
+    <div class="phase">
+      <div class="phase-header"><span class="phase-num">6</span><h3>Learning Flow</h3></div>
+      <ol>
+        <li>Run: <code>python -m src.mcp.server</code></li>
+        <li>Tools exposed: calc, weather, current_time, rag_search, wiki_search</li>
+        <li>Connect from Cursor MCP settings</li>
+        <li>Read <code>src/mcp/server.py</code></li>
+      </ol>
+    </div>
+    <div class="diagram">MCP Client (Cursor) ←──stdio JSON-RPC──► MCP Server
+                                              │
+                                    same tools as Agent tab
+                                    rag_search → rag_query()
+                                    wiki_search → wiki_query()</div>
+  </div>
+
+  <h2>Integration Diagram</h2>
+  <div class="diagram">app.py
+ ├── Chat ──► chat/service ──► llm/provider
+ ├── RAG  ──► rag/pipeline ──► ChromaDB + llm
+ ├── Open Wiki ─► wiki/pipeline ──► markdown pages + llm
+ ├── Agent ─► agents/agent ──► tools ──► search_knowledge ──► RAG
+ │                                      search_wiki ──► Open Wiki
+ ├── Fine-Tune ─► fine_tuning/src/trainer.py
+ └── MCP (separate process) ──► same tools + RAG + Wiki</div>
+
+</div>
+
+<footer>
+  <a href="learning-flow.html">← Complete Learning Flow</a> · <a href="index.html">Home</a>
+</footer>
+
+</body>
+</html>

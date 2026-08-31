@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Learning Lab — Documentation Hub</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>🧠 AI Learning Lab</h1>
+    <p>Interactive documentation for students — Generative AI &amp; Agentic AI</p>
+  </div>
+</header>
+
+<nav class="top-nav">
+  <a href="index.html" class="active">Home</a>
+  <a href="learning-flow.html">Learning Flow</a>
+  <a href="main-app-flow.html">Main App</a>
+  <a href="fine-tuning-flow.html">Fine-Tuning</a>
+  <a href="medical-assistant-flow.html">Medical Assistant</a>
+</nav>
+
+<div class="container">
+
+  <div class="alert alert-info">
+    <strong>👋 New here?</strong> Start with the
+    <a href="learning-flow.html"><strong>Complete Learning Flow</strong></a>
+    — a step-by-step journey from zero to understanding all AI concepts.
+  </div>
+
+  <h2 style="margin-top: 2rem;">Choose Your Path</h2>
+
+  <div class="card-grid">
+    <div class="card main">
+      <span class="badge">Core · Integrated</span>
+      <h3>🧠 Main AI Learning Lab</h3>
+      <p>Chat, RAG, Open Wiki, Agents, MCP, and Fine-Tuning — the complete integrated application.</p>
+      <a href="main-app-flow.html" class="btn">View Learning Flow →</a>
+    </div>
+
+    <div class="card finetune">
+      <span class="badge">LoRA · Training</span>
+      <h3>🎯 Fine-Tuning Lab</h3>
+      <p>Learn how to specialize LLMs with LoRA adapters — train, infer, evaluate, export.</p>
+      <a href="fine-tuning-flow.html" class="btn">View Learning Flow →</a>
+    </div>
+
+    <div class="card medical">
+      <span class="badge">Domain · Healthcare</span>
+      <h3>🏥 Medical Assistant</h3>
+      <p>Same architecture applied to healthcare — BMI, symptoms, medical RAG, safety rules.</p>
+      <a href="medical-assistant-flow.html" class="btn">View Learning Flow →</a>
+    </div>
+  </div>
+
+  <h2 style="margin-top: 2.5rem;">Architecture Diagrams (PNG)</h2>
+  <p style="color: var(--muted); margin-bottom: 1rem;">
+    Visual maps to understand how the LLM, pipelines, and modules connect.
+  </p>
+
+  <div class="diagram-gallery">
+    <div class="diagram-card">
+      <h3>LLM Architecture</h3>
+      <p>How Chat, RAG, Agent, and Fine-Tune all use the same LLM provider (Demo / Ollama / OpenAI).</p>
+      <img src="../images/llm-architecture.png" alt="LLM architecture diagram" class="diagram-img">
+    </div>
+    <div class="diagram-card">
+      <h3>Pipeline Structure</h3>
+      <p>Step-by-step flow for Chat, RAG (Retrieve → Augment → Generate), Agent (ReAct loop), and Fine-Tuning.</p>
+      <img src="../images/pipeline-structure.png" alt="Pipeline structure diagram" class="diagram-img">
+    </div>
+    <div class="diagram-card">
+      <h3>System Integration</h3>
+      <p>How the main app, MCP server, and Medical Assistant fit together in the project.</p>
+      <img src="../images/integration-overview.png" alt="System integration overview diagram" class="diagram-img">
+    </div>
+  </div>
+
+  <h2 style="margin-top: 2.5rem;">Recommended Learning Order</h2>
+
+  <div class="diagram">Week 1 ──► Main App (Chat → RAG → Open Wiki → Agent → MCP)
+Week 2 ──► Fine-Tuning (LoRA train → infer → evaluate)
+Week 3 ──► Medical Assistant (domain application)
+Week 4 ──► Advanced Concepts + build your own project</div>
+
+  <p style="color: var(--muted); margin-top: 1rem;">
+    <a href="learning-flow.html"><strong>→ See the full detailed learning flow</strong></a>
+  </p>
+
+  <h2 style="margin-top: 2.5rem;">Quick Start Commands</h2>
+  <pre>cd AI_APP
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+copy .env.example .env
+python -m streamlit run app.py</pre>
+
+  <h2 style="margin-top: 2rem;">Markdown Documentation</h2>
+  <p>These Markdown files are best viewed in Cursor or VS Code.</p>
+  <table>
+    <tr><th>Document</th><th>Description</th></tr>
+    <tr><td><a href="../RUN_AND_USE.md">RUN_AND_USE.md</a></td><td>How to run everything</td></tr>
+    <tr><td><a href="../USER_GUIDE.md">USER_GUIDE.md</a></td><td>Complete application guide</td></tr>
+    <tr><td><a href="../GETTING_STARTED.md">GETTING_STARTED.md</a></td><td>First-time setup</td></tr>
+    <tr><td><a href="../ARCHITECTURE_GUIDE.md">ARCHITECTURE_GUIDE.md</a></td><td>System design</td></tr>
+    <tr><td><a href="../CALL_FLOW_GUIDE.md">CALL_FLOW_GUIDE.md</a></td><td>Request call flows</td></tr>
+    <tr><td><a href="../CONCEPTS.md">CONCEPTS.md</a></td><td>AI concept explanations</td></tr>
+    <tr><td><a href="../INTEGRATION_DIAGRAM.md">INTEGRATION_DIAGRAM.md</a></td><td>How components connect</td></tr>
+    <tr><td><a href="../ADVANCED_CONCEPTS.md">ADVANCED_CONCEPTS.md</a></td><td>Expert roadmap</td></tr>
+  </table>
+
+</div>
+
+<footer>
+  AI Learning Lab — Educational project for students. Open <code>docs/html/index.html</code> in your browser.
+</footer>
+
+</body>
+</html>

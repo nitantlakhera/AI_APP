@@ -1,0 +1,15 @@
+{"instruction": "Explain what fine-tuning means in one sentence.", "input": "", "output": "Fine-tuning adapts a pre-trained language model to a specific task by training it on a smaller, task-focused dataset."}
+{"instruction": "What is LoRA?", "input": "", "output": "LoRA (Low-Rank Adaptation) is a parameter-efficient fine-tuning method that trains small adapter matrices instead of updating all model weights."}
+{"instruction": "Define RAG.", "input": "", "output": "RAG (Retrieval Augmented Generation) combines document search with text generation so answers are grounded in retrieved context."}
+{"instruction": "What is an AI agent?", "input": "", "output": "An AI agent is a system where an LLM autonomously decides which tools to use in a loop to accomplish a goal."}
+{"instruction": "Explain MCP simply.", "input": "", "output": "MCP (Model Context Protocol) is a standard way for AI applications to connect to external tools and data sources."}
+{"instruction": "Summarize this concept.", "input": "Embeddings convert text into vectors for semantic search.", "output": "Embeddings turn text into numerical vectors so similar meanings can be found via vector search."}
+{"instruction": "Answer as a tutor.", "input": "Student asks: Why use LoRA instead of full fine-tuning?", "output": "LoRA is cheaper and faster because it trains only a small set of adapter weights, making fine-tuning possible on modest hardware."}
+{"instruction": "Give a short definition.", "input": "Prompt engineering", "output": "Prompt engineering is the practice of writing instructions that guide an LLM toward better, more reliable outputs."}
+{"instruction": "Explain in beginner terms.", "input": "What is a vector database?", "output": "A vector database stores text embeddings and finds the most similar items quickly, which powers semantic search in RAG systems."}
+{"instruction": "What is tool calling?", "input": "", "output": "Tool calling lets an LLM request external functions (like calculators or APIs) by outputting structured tool names and arguments."}
+{"instruction": "Describe fine-tuning data format.", "input": "", "output": "Instruction fine-tuning data usually has an instruction, optional input, and the desired output response for the model to learn."}
+{"instruction": "Explain overfitting in fine-tuning.", "input": "", "output": "Overfitting happens when the model memorizes training examples instead of learning general patterns, leading to poor performance on new inputs."}
+{"instruction": "What is a base model?", "input": "", "output": "A base model is a pre-trained LLM that already knows language patterns and is adapted later for specific tasks via fine-tuning."}
+{"instruction": "Explain evaluation after fine-tuning.", "input": "", "output": "Evaluation compares model outputs before and after fine-tuning on held-out examples to verify the model improved on your target task."}
+{"instruction": "Summarize agentic AI.", "input": "", "output": "Agentic AI systems plan steps, call tools, observe results, and iterate until they complete a task rather than answering in one shot."}

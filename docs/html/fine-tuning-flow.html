@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fine-Tuning Learning Flow — AI Learning Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>🎯 Fine-Tuning Learning Flow</h1>
+    <p>LoRA training — specialize an LLM for your task</p>
+  </div>
+</header>
+
+<nav class="top-nav">
+  <a href="index.html">Home</a>
+  <a href="learning-flow.html">Learning Flow</a>
+  <a href="main-app-flow.html">Main App</a>
+  <a href="fine-tuning-flow.html" class="active">Fine-Tuning</a>
+  <a href="medical-assistant-flow.html">Medical Assistant</a>
+</nav>
+
+<div class="container">
+
+  <div class="alert alert-info">
+    Fine-tuning changes <strong>model weights</strong>. RAG adds external knowledge at query time.
+    They complement each other in production systems.
+  </div>
+
+  <h2>Setup</h2>
+  <pre>pip install -r fine_tuning/requirements.txt
+copy fine_tuning\.env.example fine_tuning\.env</pre>
+
+  <h2>Run Options</h2>
+  <table>
+    <tr><th>Option</th><th>Command</th></tr>
+    <tr><td>Main app tab</td><td><code>python -m streamlit run app.py</code> → Fine-Tune tab</td></tr>
+    <tr><td>Standalone app</td><td><code>python -m streamlit run fine_tuning/app.py</code></td></tr>
+    <tr><td>CLI train</td><td><code>python fine_tuning/scripts/train.py</code></td></tr>
+  </table>
+
+  <!-- Step by step -->
+  <div class="flow-section">
+    <h2>Step-by-Step Learning Flow</h2>
+
+    <div class="phase finetune">
+      <div class="phase-header"><span class="phase-num">1</span><h3>Understand the Dataset</h3></div>
+      <p>Open <strong>Dataset</strong> tab. Each row in <code>sample_dataset.jsonl</code>:</p>
+      <pre>{
+  "instruction": "What is LoRA?",
+  "input": "",
+  "output": "LoRA is a parameter-efficient fine-tuning method..."
+}</pre>
+      <p>15 examples about AI concepts. Model learns: given instruction → produce output.</p>
+    </div>
+
+    <div class="phase finetune">
+      <div class="phase-header"><span class="phase-num">2</span><h3>Train LoRA Adapter</h3></div>
+      <ol>
+        <li>Open <strong>Train</strong> tab</li>
+        <li>Set epochs (start with 3)</li>
+        <li>Click <strong>Start LoRA Training</strong> (main app) or <strong>Start Training</strong> (standalone)</li>
+        <li>Wait 5–15 minutes on CPU</li>
+        <li>Output: <code>fine_tuning/outputs/lora_adapter/</code></li>
+      </ol>
+      <p>Only a small fraction of parameters (approximately 1%) are trained as LoRA adapters.</p>
+    </div>
+
+    <div class="phase finetune">
+      <div class="phase-header"><span class="phase-num">3</span><h3>Run Inference</h3></div>
+      <ol>
+        <li>Open <strong>Infer</strong> tab</li>
+        <li>Enter: <code>What is LoRA?</code></li>
+        <li>Check: <strong>Adapter used: Yes</strong></li>
+        <li>CLI: <code>python fine_tuning/scripts/infer.py "What is RAG?"</code></li>
+      </ol>
+    </div>
+
+    <div class="phase finetune">
+      <div class="phase-header"><span class="phase-num">4</span><h3>Evaluate</h3></div>
+      <ol>
+        <li>Open <strong>Evaluate</strong> tab</li>
+        <li>Click <strong>Compare Base vs Fine-Tuned</strong> (main app) or <strong>Run Evaluation</strong> (standalone)</li>
+        <li>Side-by-side: base model vs adapter model</li>
+        <li>CLI: <code>python fine_tuning/scripts/evaluate.py</code></li>
+      </ol>
+    </div>
+
+    <div class="phase finetune">
+      <div class="phase-header"><span class="phase-num">5</span><h3>Export (Optional)</h3></div>
+      <pre>python fine_tuning/scripts/export.py</pre>
+      <p>Merges adapter into full model at <code>fine_tuning/outputs/merged_model/</code></p>
+    </div>
+  </div>
+
+  <h2>Pipeline Diagram</h2>
+  <div class="diagram">sample_dataset.jsonl
+        │
+        ▼
+   dataset.py (Alpaca format)
+        │
+        ▼
+   trainer.py
+     ├── Load distilgpt2 (base model)
+     ├── Apply LoRA adapters (PEFT)
+     ├── Train on instruction data
+     └── Save → outputs/lora_adapter/
+              │
+    ┌─────────┼─────────┐
+    ▼         ▼         ▼
+inference  evaluate  export
+(generate) (compare) (merge)</div>
+
+  <h2>Key Concepts</h2>
+  <table>
+    <tr><th>Concept</th><th>Explanation</th></tr>
+    <tr><td>Full fine-tuning</td><td>Update ALL weights — expensive, needs GPU</td></tr>
+    <tr><td>LoRA</td><td>Train small adapter matrices — cheap, CPU-friendly</td></tr>
+    <tr><td>Instruction tuning</td><td>Teach model to follow instruction → output format</td></tr>
+    <tr><td>Adapter</td><td>Small file saved after training, loads on top of base</td></tr>
+    <tr><td>Eval loss</td><td>Lower = better fit (watch for overfitting)</td></tr>
+  </table>
+
+  <h2>Exercises</h2>
+  <ul class="checklist">
+    <li>Train with 1 epoch vs 5 epochs — compare eval loss</li>
+    <li>Add your own row to sample_dataset.jsonl — retrain</li>
+    <li>Read trainer.py — find LoraConfig settings</li>
+    <li>Run export.py — understand merged vs adapter weights</li>
+    <li>Compare: same question to Chat tab (prompt) vs Fine-tuned infer (weights)</li>
+  </ul>
+
+  <h2>Code Map</h2>
+  <table>
+    <tr><th>File</th><th>Purpose</th></tr>
+    <tr><td>fine_tuning/src/dataset.py</td><td>Load JSONL, Alpaca formatting</td></tr>
+    <tr><td>fine_tuning/src/trainer.py</td><td>LoRA training loop</td></tr>
+    <tr><td>fine_tuning/src/inference.py</td><td>Generate with adapter</td></tr>
+    <tr><td>fine_tuning/src/evaluator.py</td><td>Base vs fine-tuned comparison</td></tr>
+    <tr><td>fine_tuning/scripts/export.py</td><td>Merge adapter weights</td></tr>
+  </table>
+
+</div>
+
+<footer>
+  <a href="learning-flow.html">← Complete Learning Flow</a> · <a href="index.html">Home</a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+Human Body Basics — Educational Overview
+=======================================
+
+DISCLAIMER: This content is for learning only, not medical advice.
+
+The Human Body Systems
+----------------------
+The human body has several major systems that work together:
+
+1. Circulatory System — heart and blood vessels transport oxygen and nutrients
+2. Respiratory System — lungs bring in oxygen and remove carbon dioxide
+3. Digestive System — breaks down food and absorbs nutrients
+4. Nervous System — brain, spinal cord, and nerves control body functions
+5. Musculoskeletal System — bones and muscles provide structure and movement
+6. Immune System — defends against infections and disease
+
+Vital Signs (Educational)
+-------------------------
+- Temperature: normal adult body temperature is approximately 37°C (98.6°F)
+- Heart rate: resting adult heart rate is typically 60-100 beats per minute
+- Blood pressure: normal is around 120/80 mmHg (varies by individual)
+- Respiratory rate: 12-20 breaths per minute for adults at rest
+
+Students should learn that vital signs are measured by healthcare professionals
+and interpreted in context of the whole patient, not in isolation.
+
+Common Medical Roles
+--------------------
+- General Practitioner (GP): primary care, first point of contact
+- Nurse: patient care, monitoring, education
+- Specialist: focused expertise (cardiology, dermatology, etc.)
+- Pharmacist: medication expertise and safety
