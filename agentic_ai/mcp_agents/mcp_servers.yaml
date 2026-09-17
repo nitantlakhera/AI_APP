@@ -1,0 +1,9 @@
+servers:
+  finance:
+    url: http://localhost:8001/mcp
+
+  user:
+    url: http://localhost:8002/mcp
+
+  weather:
+    url: http://localhost:8003/mcp

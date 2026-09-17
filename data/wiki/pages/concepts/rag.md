@@ -4,44 +4,52 @@ source: "02_rag.txt"
 tags: "compiled"
 ---
 
-## Summary
-Demo mode converted `02_rag.txt` into a persistent wiki page without using an LLM. The source content is preserved below rather than being presented as AI-generated synthesis.
+RAG — Retrieval Augmented Generation
+=====================================
 
-## Source Knowledge
+### What is RAG?
+RAG is a technique that combines information retrieval with text generation, allowing for more accurate and relevant answers by incorporating relevant information from documents and generating answers grounded in actual data.
 
-# RAG — Retrieval Augmented Generation
+### Why Use RAG?
+RAG offers several advantages, including:
 
-## What is RAG?
-RAG is a technique that combines information retrieval with text generation.
-Instead of relying only on what the LLM learned during training, RAG:
-1. Searches your documents for relevant information
-2. Includes that information in the prompt
-3. Generates an answer grounded in your actual data
+* **Grounding answers in real data**: RAG uses actual documents to generate answers, reducing the risk of hallucinations or misinformation.
+* **Using proprietary/private data**: RAG can be used with proprietary or private data without retraining the model, making it a more efficient and flexible solution.
+* **Traceable answers**: The use of source documents ensures that answers can be traced back to their original sources.
 
-Why Use RAG?
-- LLMs have a knowledge cutoff date — they don't know recent events
-- LLMs can hallucinate (make up facts) — RAG grounds answers in real documents
-- You can use proprietary/private data without retraining the model
-- Answers are traceable to source documents
+### The RAG Pipeline
+The RAG pipeline consists of the following steps:
 
-The RAG Pipeline:
-1. INGEST: Load documents, split into chunks, create embeddings
-2. STORE: Save embeddings in a vector database (ChromaDB, Pinecone, etc.)
-3. RETRIEVE: When a question comes in, embed it and find similar chunks
-4. AUGMENT: Add retrieved chunks to the LLM prompt as context
-5. GENERATE: The LLM produces an answer based on the provided context
+#### 1. INGEST
+Load documents, split into chunks, and create embeddings.
 
-Key Components:
-- Embeddings: Convert text to vectors (numbers) that capture meaning
-- Vector Database: Stores and searches embeddings efficiently
-- Chunking: Split long documents into smaller pieces for better retrieval
-- Reranking: Optionally re-score results for better relevance
+#### 2. STORE
+Save embeddings in a vector database (e.g., ChromaDB, Pinecone).
 
-Best Practices:
-- Chunk size: 300-1000 tokens with 10-20% overlap
-- Use metadata (source, date, author) for filtering
-- Evaluate retrieval quality separately from generation quality
-- Consider hybrid search (keyword + semantic) for better results
+#### 3. RETRIEVE
+When a question is asked, embed the query and find similar chunks in the vector database.
 
-## Related
-- [[index]]
+#### 4. AUGMENT
+Add retrieved chunks to the LLM prompt as context.
+
+#### 5. GENERATE
+The LLM produces an answer based on the provided context.
+
+### Key Components
+#### Embeddings
+Convert text to vectors that capture meaning.
+
+#### Vector Database
+Stores and searches embeddings efficiently.
+
+#### Chunking
+Split long documents into smaller pieces for better retrieval.
+
+#### Reranking
+Optionally re-score results for better relevance.
+
+### Best Practices
+* **Chunk size**: Use chunks of 300-1000 tokens with 10-20% overlap.
+* **Metadata**: Use source, date, and author metadata for filtering.
+* **Evaluation**: Separate evaluation of retrieval quality from generation quality.
+* **Hybrid search**: Consider hybrid search (keyword + semantic) for better results.

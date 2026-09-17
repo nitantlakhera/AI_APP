@@ -1,0 +1,25 @@
+docker run -d --name postgres-ai -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=ai_agent_db -p 5432:5432 -v postgres_ai_data:/var/lib/postgresql/data postgres:16
+
+
+                 User Question
+                       │
+                       ▼
+                Supervisor Agent
+                       │
+             ┌─────────┼─────────┐
+             ▼         ▼         ▼
+          Weather   Finance    User
+           Agent     Agent     Agent
+             │         │         │
+             └─────────┼─────────┘
+                       ▼
+                  MCP Manager
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+      Weather MCP  Finance MCP   User MCP
+          │            │            │
+          ▼            ▼            ▼
+       Weather      Finance      PostgreSQL
+
+python -m streamlit run agent_app.py
