@@ -1,6 +1,8 @@
+import asyncio
 import json
 
 from agentic_ai.agents.llm_provider import chat_llm_tools
+from agentic_ai.mcp_agents.MCPManager import MCPManager
 
 
 # ============================================================
@@ -16,7 +18,7 @@ async def user_agent(question, mcp_manager):
     # GET USER MCP TOOLS
     # ========================================================
 
-    tools = mcp_manager.get_tools_for_server("postgres")
+    tools = mcp_manager.get_tools_for_server("user")
 
     print("Received Tools:", tools)
 
@@ -105,3 +107,23 @@ async def user_agent(question, mcp_manager):
             )
 
         continue
+
+async def main():
+
+    # Create MCP manager
+    mcp_manager = MCPManager()
+
+    # Test User Agent
+    result = await user_agent(
+        "What are the details of user 101?",
+        mcp_manager
+    )
+
+    print("\n========================================")
+    print("FINAL ANSWER")
+    print("========================================")
+    print(result)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

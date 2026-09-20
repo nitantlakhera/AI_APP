@@ -14,7 +14,7 @@ load_dotenv()
 
 @mcp.tool()
 def get_user_from_db(user_id):
-    get_db_records(user_id)
+    return get_db_records(user_id)
 
 
 def get_db_records(user_id):

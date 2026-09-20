@@ -2,9 +2,6 @@ import asyncio
 
 from agentic_ai.mcp_agents.MCPManager import MCPManager
 from agentic_ai.mcp_agents.supervisor_agent import run_supervisor_agent
-from agentic_ai.mcp_agents.weather_agent import weather_agent
-from agentic_ai.mcp_agents.finance_agent import finance_agent
-from agentic_ai.mcp_agents.user_agent import user_agent
 
 
 # ============================================================
@@ -12,7 +9,6 @@ from agentic_ai.mcp_agents.user_agent import user_agent
 # ============================================================
 
 async def run_multi_agent(question):
-
     print("\n")
     print("========================================")
     print("MULTI-AGENT SYSTEM")
@@ -34,42 +30,23 @@ async def run_multi_agent(question):
     await mcp_manager.discover_tools()
 
     # ========================================================
-    # STEP 1: SUPERVISOR DECIDES
+    # SUPERVISOR
+    #
+    # Supervisor will:
+    #
+    # 1. Decide required agents
+    # 2. Call Weather Agent
+    # 3. Call Finance Agent
+    # 4. Call User Agent
+    # 5. Collect their results
+    # 6. Call Recommendation Agent through A2A
+    # 7. Return final recommendation
     # ========================================================
 
-    agent_name = run_supervisor_agent(question)
-
-    # ========================================================
-    # STEP 2: CALL SPECIALIZED AGENT
-    # ========================================================
-
-    if agent_name == "weather":
-
-        result = await weather_agent(
-            question,
-            mcp_manager
-        )
-
-    elif agent_name == "finance":
-
-        result = await finance_agent(
-            question,
-            mcp_manager
-        )
-
-    elif agent_name == "user":
-
-        result = await user_agent(
-            question,
-            mcp_manager
-        )
-
-    else:
-
-        result = (
-            "Supervisor could not determine "
-            "the appropriate agent."
-        )
+    result = await run_supervisor_agent(
+        question,
+        mcp_manager
+    )
 
     # ========================================================
     # FINAL RESULT
@@ -91,6 +68,7 @@ async def run_multi_agent(question):
 if __name__ == "__main__":
     asyncio.run(
         run_multi_agent(
-            "Weather of Jabalpur?"
+            "Based on my user profile, current weather "
+            "and finances, what should I do today?"
         )
     )

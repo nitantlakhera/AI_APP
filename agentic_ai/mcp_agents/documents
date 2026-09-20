@@ -23,3 +23,216 @@ docker run -d --name postgres-ai -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=
        Weather      Finance      PostgreSQL
 
 python -m streamlit run agent_app.py
+
+
+
+
+                         USER
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │   SUPERVISOR    │
+                  │      AGENT      │
+                  └────────┬────────┘
+                           │
+              ┌────────────┼────────────┐
+              ▼            ▼            ▼
+        ┌──────────┐ ┌──────────┐ ┌──────────┐
+        │ WEATHER  │ │ FINANCE  │ │   USER   │
+        │  AGENT   │ │  AGENT   │ │  AGENT   │
+        └────┬─────┘ └────┬─────┘ └────┬─────┘
+             │            │            │
+             └────────────┼────────────┘
+                          ▼
+                    MCP MANAGER
+                          │
+             ┌────────────┼────────────┐
+             ▼            ▼            ▼
+        Weather MCP   Finance MCP   User MCP
+             │            │            │
+             ▼            ▼            ▼
+          Weather      Finance      PostgreSQL
+
+
+          NEW A2A COMMUNICATION
+
+        Weather Agent ───────────┐
+                                 │
+        Finance Agent ───────────┼── A2A ──► Recommendation Agent
+                                 │
+        User Agent ──────────────┘
+                                                   │
+                                                   ▼
+                                             Final Answer
+
+
+
+
+
+
+Your complete flow is now
+                    USER
+                     │
+                     ▼
+              SUPERVISOR AGENT
+                     │
+          decides required agents
+                     │
+       ┌─────────────┼─────────────┐
+       ▼             ▼             ▼
+   WEATHER         FINANCE        USER
+    AGENT           AGENT         AGENT
+       │             │             │
+      MCP           MCP           MCP
+       │             │             │
+ Weather API      Finance       PostgreSQL
+       │             │             │
+       └─────────────┼─────────────┘
+                     │
+                     ▼
+             Combined Results
+                     │
+                     ▼
+              A2A CLIENT
+                     │
+                     │ A2A
+                     ▼
+          RECOMMENDATION AGENT
+                     │
+                     ▼
+             RECOMMENDATION
+                     │
+                     ▼
+                    USER
+
+
+ python -m agentic_ai.a2a.recommendation_server
+
+
+
+
+
+
+┌──────────────────────────────────────────────────────────────────────┐
+│                              USER                                    │
+│                                                                      │
+│   "Based on my profile, weather and finances, what should I do?"    │
+└───────────────────────────────┬──────────────────────────────────────┘
+                                │
+                                ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│                         MULTI-AGENT SYSTEM                           │
+│                         run_multi_agent()                            │
+│                                                                      │
+│  • Receives user question                                            │
+│  • Creates MCPManager                                                 │
+│  • Discovers MCP tools                                                │
+│  • Calls Supervisor Agent                                             │
+└───────────────────────────────┬──────────────────────────────────────┘
+                                │
+                                ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│                         SUPERVISOR AGENT                             │
+│                                                                      │
+│  • Understands user request                                          │
+│  • Decides which specialized agents are required                      │
+│  • Calls specialized agents                                          │
+│  • Collects their results                                             │
+│  • Sends combined results to Recommendation Agent via A2A             │
+└───────────────┬───────────────────────┬───────────────────────┬──────┘
+                │                       │                       │
+                │ MCP                   │ MCP                   │ MCP
+                ▼                       ▼                       ▼
+┌────────────────────────┐  ┌────────────────────────┐  ┌────────────────────────┐
+│     WEATHER AGENT      │  │     FINANCE AGENT      │  │       USER AGENT       │
+│                        │  │                        │  │                        │
+│ • Understands weather  │  │ • Understands finance  │  │ • Understands users   │
+│ • Uses weather tool    │  │ • Uses finance tool    │  │ • Uses user tool       │
+└────────────┬───────────┘  └────────────┬───────────┘  └────────────┬───────────┘
+             │                           │                           │
+             │ MCP                       │ MCP                       │ MCP
+             ▼                           ▼                           ▼
+┌────────────────────────┐  ┌────────────────────────┐  ┌────────────────────────┐
+│     WEATHER MCP        │  │      FINANCE MCP       │  │       USER MCP         │
+│        SERVER          │  │        SERVER          │  │        SERVER          │
+└────────────┬───────────┘  └────────────┬───────────┘  └────────────┬───────────┘
+             │                           │                           │
+             ▼                           ▼                           ▼
+┌────────────────────────┐  ┌────────────────────────┐  ┌────────────────────────┐
+│     WEATHER API        │  │    FINANCE DATA/API    │  │      POSTGRESQL        │
+│                        │  │                        │  │                        │
+│  Temperature           │  │  Currency              │  │  User ID               │
+│  Humidity              │  │  Exchange Rate         │  │  Name                  │
+│  Conditions             │  │  Budget                │  │  City                  │
+└────────────────────────┘  └────────────────────────┘  │  Role                  │
+                                                        └────────────────────────┘
+
+
+                    SPECIALIZED AGENT RESULTS
+                              │
+                              ▼
+                 ┌────────────────────────┐
+                 │   COMBINED RESULTS     │
+                 │                        │
+                 │ • User Result          │
+                 │ • Weather Result       │
+                 │ • Finance Result       │
+                 └────────────┬───────────┘
+                              │
+                              │ A2A
+                              ▼
+                 ┌────────────────────────┐
+                 │      A2A CLIENT        │
+                 │                        │
+                 │ send_to_recommendation │
+                 │ _agent()               │
+                 └────────────┬───────────┘
+                              │
+                              │ A2A Protocol
+                              ▼
+                 ┌────────────────────────┐
+                 │  RECOMMENDATION AGENT  │
+                 │                        │
+                 │ • Receives all results │
+                 │ • Uses LLM             │
+                 │ • Generates final      │
+                 │   recommendation       │
+                 └────────────┬───────────┘
+                              │
+                              ▼
+                 ┌────────────────────────┐
+                 │   FINAL RECOMMENDATION │
+                 └────────────┬───────────┘
+                              │
+                              ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│                              USER                                    │
+└──────────────────────────────────────────────────────────────────────┘
+
+
+
+
+                 ┌───────────────────┐
+                 │    SUPERVISOR     │
+                 └─────────┬─────────┘
+                           │
+             ┌─────────────┼─────────────┐
+             │             │             │
+            MCP           MCP           MCP
+             │             │             │
+             ▼             ▼             ▼
+          Weather       Finance         User
+           Agent         Agent          Agent
+             │             │             │
+            MCP           MCP           MCP
+             ▼             ▼             ▼
+          Weather       Finance       PostgreSQL
+             │             │             │
+             └─────────────┼─────────────┘
+                           │
+                    Collect Results
+                           │
+                          A2A
+                           │
+                           ▼
+                  Recommendation Agent

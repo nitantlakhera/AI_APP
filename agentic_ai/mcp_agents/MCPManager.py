@@ -21,6 +21,11 @@ class MCPManager:
 
     def get_mcp_servers(self):
 
+        # with open("agentic_ai/mcp_agents/mcp_servers.yaml", "r") as file:
+        #     config = yaml.safe_load(file)
+
+
+        # With Stream lite
         with open("mcp_servers.yaml", "r") as file:
             config = yaml.safe_load(file)
 
