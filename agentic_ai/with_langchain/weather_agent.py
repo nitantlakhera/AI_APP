@@ -1,13 +1,17 @@
 import asyncio
-from langchain_mcp_adapters.client import MultiServerMCPClient
-from langchain.agents import create_agent
 import os
-from openai import OpenAI
+
 from dotenv import load_dotenv
+from langchain.agents import create_agent
+from langchain_mcp_adapters.client import MultiServerMCPClient
+from langchain_openai import ChatOpenAI
+
 
 load_dotenv()
+
+
 # ============================================================
-# OLLAMA
+# OLLAMA CONFIGURATION
 # ============================================================
 
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL")
@@ -15,7 +19,12 @@ API_KEY = os.getenv("LLM_PROVIDER")
 MODEL_NAME = os.getenv("OLLAMA_MODEL")
 
 
+# ============================================================
+# MAIN
+# ============================================================
+
 async def main():
+
     # ========================================================
     # MCP CLIENT
     # ========================================================
@@ -41,17 +50,14 @@ async def main():
         print("-", tool.name)
 
     # ========================================================
-    # LLM
+    # LLM - OLLAMA
     # ========================================================
 
-    # llm = ChatOpenAI(
-    #     model="gpt-4o-mini",
-    #     temperature=0
-    # )
-
-    llm = OpenAI(
+    llm = ChatOpenAI(
+        model=MODEL_NAME,
         base_url=f"{OLLAMA_BASE_URL}/v1",
-        api_key=API_KEY
+        api_key=API_KEY,
+        temperature=0
     )
 
     # ========================================================
@@ -84,14 +90,20 @@ async def main():
         }
     )
 
+    # ========================================================
+    # FINAL ANSWER
+    # ========================================================
+
     print("\n========================================")
     print("FINAL ANSWER")
     print("========================================")
 
-    print(
-        result["messages"][-1].content
-    )
+    print(result["messages"][-1].content)
 
+
+# ============================================================
+# START
+# ============================================================
 
 if __name__ == "__main__":
     asyncio.run(main())

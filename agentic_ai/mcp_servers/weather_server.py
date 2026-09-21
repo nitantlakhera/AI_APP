@@ -1,9 +1,15 @@
 import os
 import requests
 from dotenv import load_dotenv
-from mcp.server import MCPServer
+from mcp.server import FastMCP
 
-mcp = MCPServer("Weather Server")
+# mcp = FastMCP("Weather Server")
+
+mcp = FastMCP(
+    "Weather Server",
+    host="127.0.0.1",
+    port=8003
+)
 
 load_dotenv()
 OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
@@ -33,6 +39,8 @@ def get_weather(city):
 
     data = response.json()
 
+    print("Json Data: ", data)
+
     return {
         "city": data["name"],
         "country": data["sys"]["country"],
@@ -46,7 +54,6 @@ def get_weather(city):
 
 if __name__ == "__main__":
     mcp.run(
-        "streamable-http",
-        port=8003
+        "streamable-http"
     )
     # mcp.run()

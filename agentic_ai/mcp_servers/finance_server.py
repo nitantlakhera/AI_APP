@@ -1,6 +1,10 @@
-from mcp.server import MCPServer
+from mcp.server import FastMCP
 
-mcp = MCPServer("Finance Server")
+mcp = FastMCP(
+    "User Server",
+    host="127.0.0.1",
+    port=8001
+)
 
 @mcp.tool()
 def get_exchange_rate(
@@ -36,7 +40,7 @@ def get_exchange_rate(
 # mcp run AI_AGENTS\weather_server.py --transport streamable-http
 
 if __name__ == "__main__":
-    mcp.run("streamable-http", port=8001)
+    mcp.run("streamable-http")
 
 # if __name__ == "__main__":
 #     mcp.run("streamable-http", port=8001)

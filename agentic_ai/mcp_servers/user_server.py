@@ -1,9 +1,15 @@
 import os
 import psycopg2
 from dotenv import load_dotenv
-from mcp.server import MCPServer
+from mcp.server import FastMCP
 
-mcp = MCPServer("User Server")
+# mcp = MCPServer("User Server")
+
+mcp = FastMCP(
+    "User Server",
+    host="127.0.0.1",
+    port=8002
+)
 
 load_dotenv()
 
@@ -58,6 +64,5 @@ def get_db_records(user_id):
 
 if __name__ == "__main__":
     mcp.run(
-        "streamable-http",
-        port=8002
+        "streamable-http"
     )
